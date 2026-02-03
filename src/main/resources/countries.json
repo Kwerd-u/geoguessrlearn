@@ -1,0 +1,31 @@
+[
+  {
+    "name": "Россия",
+    "regions": [
+      {
+        "name": "Москва",
+        "features": [
+          {"type": "regionNumber", "value": "77"}
+        ]
+      },
+      {
+        "name": "Санкт-Петербург",
+        "features": [
+          {"type": "regionNumber", "value": "52"}
+        ]
+      },
+      {
+        "name": "Ростовская область",
+        "features": [
+          {"type": "regionNumber", "value": "61"}
+        ]
+      },
+      {
+        "name": "Республика Адыгея",
+        "features": [
+          {"type": "regionNumber", "value": "01"}
+        ]
+      }
+    ]
+  }
+]
