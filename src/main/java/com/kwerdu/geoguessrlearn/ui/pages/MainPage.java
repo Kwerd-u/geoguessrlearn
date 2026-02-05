@@ -1,5 +1,7 @@
 package com.kwerdu.geoguessrlearn.ui.pages;
 
+import com.kwerdu.geoguessrlearn.logic.Country;
+import com.kwerdu.geoguessrlearn.logic.CountryRepository;
 import com.kwerdu.geoguessrlearn.ui.Navigator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,6 +19,8 @@ public class MainPage extends Page {
 
     @Autowired
     Navigator navigator;
+    @Autowired
+    CountryRepository  countryRepository;
 
     @Override
     protected JPanel createContent() {
@@ -40,6 +44,7 @@ public class MainPage extends Page {
     }
 
     private void onLearnClick(ActionEvent e) {
+        countryRepository.selectCountry();
         navigator.showQuestionPage();
     }
 }

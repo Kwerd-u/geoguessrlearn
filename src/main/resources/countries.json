@@ -4,26 +4,30 @@
     "regions": [
       {
         "name": "Москва",
+        "accuracy": 0,
         "features": [
-          {"type": "regionNumber", "value": "77"}
+          {"type": "regionNumber", "value": "77", "accuracy": 0}
         ]
       },
       {
         "name": "Санкт-Петербург",
+        "accuracy": 0,
         "features": [
-          {"type": "regionNumber", "value": "52"}
+          {"type": "regionNumber", "value": "52", "accuracy": 0}
         ]
       },
       {
         "name": "Ростовская область",
+        "accuracy": 0,
         "features": [
-          {"type": "regionNumber", "value": "61"}
+          {"type": "regionNumber", "value": "61", "accuracy": 0}
         ]
       },
       {
         "name": "Республика Адыгея",
+        "accuracy": 0,
         "features": [
-          {"type": "regionNumber", "value": "01"}
+          {"type": "regionNumber", "value": "01", "accuracy": 0}
         ]
       }
     ]

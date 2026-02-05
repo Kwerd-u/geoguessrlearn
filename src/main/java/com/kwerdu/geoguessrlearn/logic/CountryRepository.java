@@ -12,6 +12,8 @@ import java.util.List;
 @Component
 public class CountryRepository {
     private final List<Country> countries;
+    private Country selectedCountry;
+
 
     public CountryRepository() {
         this.countries = loadCountries();
@@ -32,4 +34,7 @@ public class CountryRepository {
     public Country getRandomCountry() {
         return countries.get((int)(Math.random() * countries.size()));
     }
+
+    public void selectCountry() {selectedCountry = countries.get(0);}
+    public Country getSelectedCountry() {return selectedCountry;}
 }

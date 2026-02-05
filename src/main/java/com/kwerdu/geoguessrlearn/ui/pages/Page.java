@@ -4,12 +4,13 @@ import com.kwerdu.geoguessrlearn.ui.UIService;
 import org.springframework.context.ApplicationContext;
 
 import javax.swing.*;
+import java.awt.*;
 
 public abstract class Page {
     protected JPanel panel;
 
     protected Page() {
-        this.panel = new JPanel();  // Пустая панель
+        this.panel = new JPanel();
     }
 
     public void showSelf(ApplicationContext context) {
@@ -18,7 +19,16 @@ public abstract class Page {
     }
 
     public void refresh() {
-        panel = createContent();
+        panel.removeAll();
+        panel.add(createContent());
+        panel.revalidate();
+        panel.repaint();
+
+        Component parent = panel.getParent();
+        if (parent != null) {
+            parent.revalidate();
+            parent.repaint();
+        }
     }
 
     protected abstract JPanel createContent();
