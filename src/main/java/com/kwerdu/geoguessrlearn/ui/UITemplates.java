@@ -5,14 +5,19 @@ import java.awt.*;
 import java.awt.Component;
 
 public class UITemplates {
-    public static JPanel Question(JComponent question, JComponent topLeft, JComponent topRight,
+    public static JPanel Question(JComponent questionLabel, JComponent question, JComponent topLeft, JComponent topRight,
                                   JComponent bottomLeft, JComponent bottomRight){
+        JPanel questionPanel = new JPanel(new BorderLayout());
+        questionPanel.add(questionLabel, BorderLayout.NORTH);
+
         JPanel panel = new JPanel(new GridLayout(2, 1, 10, 10));
         panel.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.setAlignmentY(Component.CENTER_ALIGNMENT);
         panel.add(question);
         panel.add(quarters(topLeft, topRight, bottomLeft, bottomRight));
-        return panel;
+
+        questionPanel.add(panel, BorderLayout.CENTER);
+        return questionPanel;
     }
 
     public static JPanel quarters(JComponent topLeft, JComponent topRight,

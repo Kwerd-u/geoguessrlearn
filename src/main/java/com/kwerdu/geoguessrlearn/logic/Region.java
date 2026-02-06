@@ -1,5 +1,6 @@
 package com.kwerdu.geoguessrlearn.logic;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kwerdu.geoguessrlearn.logic.features.RegionFeature;
 
 import javax.swing.*;
@@ -11,6 +12,11 @@ public class Region {
     private String name;
     private List<RegionFeature> features = new ArrayList<>();
     private int accuracy;
+
+    @JsonIgnore
+    private int roundsAgo = 0;
+
+    private int choiceFactor = 0;
 
     public Region(){}
     public Region(String name) {this.name = name;}
@@ -24,6 +30,15 @@ public class Region {
             count++;
         }
         accuracy = sum / count;
+    }
+
+    public void updateChoiceFactor(){
+        updateAccuracy();
+        choiceFactor = accuracy - roundsAgo * 5;
+    }
+    @JsonIgnore
+    public int getChoiceFactor() {
+        return choiceFactor;
     }
 
     public void addFeature(RegionFeature feature) {
@@ -60,4 +75,13 @@ public class Region {
         }
         return null;
     }
+
+    public void pickUp(){
+        roundsAgo = 0;
+    }
+    public void nextRound(){
+        roundsAgo++;
+    }
+
+
 }

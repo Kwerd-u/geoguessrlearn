@@ -1,5 +1,7 @@
 package com.kwerdu.geoguessrlearn.logic;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.List;
 
 public class Country {
@@ -13,10 +15,17 @@ public class Country {
         this.regions = regionList;
     }
 
+    @JsonIgnore
     public Region getRandomRegion() {
         return regions.get((int)(Math.random() * regions.size()));
     }
 
+    public void nextRoundRegions(){
+        for(Region region : regions){
+            region.nextRound();
+            region.updateChoiceFactor();
+        }
+    }
 
     public String getName() {
         return name;

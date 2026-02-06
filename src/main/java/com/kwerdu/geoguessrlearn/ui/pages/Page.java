@@ -10,7 +10,7 @@ public abstract class Page {
     protected JPanel panel;
 
     protected Page() {
-        this.panel = new JPanel();
+        this.panel = new JPanel(new BorderLayout());
     }
 
     public void showSelf(ApplicationContext context) {
@@ -19,17 +19,19 @@ public abstract class Page {
     }
 
     public void refresh() {
+        // НЕ удаляем panel — обновляем КОНТЕНТ!
+        JPanel newContent = createContent();
+
+
+        // 🔥 Заменяем только содержимое!
         panel.removeAll();
-        panel.add(createContent());
+        panel.add(newContent, BorderLayout.CENTER);  // ЯВНО указываем позицию!
+
         panel.revalidate();
         panel.repaint();
-
-        Component parent = panel.getParent();
-        if (parent != null) {
-            parent.revalidate();
-            parent.repaint();
-        }
     }
+
+
 
     protected abstract JPanel createContent();
 

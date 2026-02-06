@@ -44,7 +44,6 @@ public class GameService {
         for (Component comp : parent.getComponents()) {
             if (comp instanceof AnswerButton btn) {
                 btn.isCorrect();
-                System.out.println(flag);
             } else if (comp instanceof JComponent container) {
                 highlightAllButtonsRecursively(container);
             }
@@ -53,95 +52,102 @@ public class GameService {
 
     public JPanel getQuestion(){
         flag = true;
-        System.out.println(flag);
         JPanel panel;
+        List<AnswerButton> answerButtons = new ArrayList<>();
+        JLabel label = new JLabel();
+        JLabel questionLabel =  new JLabel();
+
 
         Country selectedCountry = countryRepository.getSelectedCountry();
+
+        selectedCountry.nextRoundRegions();
+
         List<Region> regions = selectedCountry.getRegions();
-
-        for (Region region : regions) {
-            region.updateAccuracy();
-        }
-
-        regions.sort(Comparator.comparing(Region::getAccuracy).thenComparing(Region::getName));
-
+        regions.sort(Comparator.comparing(Region::getChoiceFactor));
         List<Region> selectedRegions = regions.subList(0, 4);
-        Region selectedRegion = selectedRegions.get(0);
-        List<RegionFeature> regionFeatures = selectedRegion.getFeatures();
 
+
+        Region selectedRegion = selectedRegions.get(0);
+        selectedRegion.pickUp();
+
+        List<RegionFeature> regionFeatures = selectedRegion.getFeatures();
         regionFeatures.sort(Comparator.comparing(RegionFeature::getAccuracy));
 
-        RegionFeature selectedRegionFeature = regionFeatures.get(0);
-        feature = selectedRegionFeature;
-        String selectedRegionFeatureType = selectedRegionFeature.getType();
+        RegionFeature selectedRegionFeature1 = regionFeatures.get(0);
+        feature = selectedRegionFeature1;
+        RegionFeature selectedRegionFeature2 = regionFeatures.get(1);
 
+
+        String selectedRegionFeatureType1 = selectedRegionFeature1.getType();
+        String selectedRegionFeatureType2 = selectedRegionFeature2.getType();
+
+
+        List<RegionFeature> Features1 = new ArrayList<>();
+        Features1.add(selectedRegionFeature1);
+        List<RegionFeature> Features2 = new ArrayList<>();
+        Features2.add(selectedRegionFeature2);
+
+        for (int i = 1; i < 4; i++) {
+            Region region = selectedRegions.get(i);
+            Features1.add(region.getFeatureWithType(selectedRegionFeatureType1));
+            Features2.add(region.getFeatureWithType(selectedRegionFeatureType2));
+        }
 
         Random random = new Random();
 
-        if (random.nextInt(2) == 0) { //вопрос - название региона, ответы - фичи
-            List<RegionFeature> wrongFeatures = new ArrayList<>();
-            for (int i = 1; i < 4; i++) {
-                Region wrongRegion = selectedRegions.get(i);
-                wrongFeatures.add(wrongRegion.getFeatureWithType(selectedRegionFeatureType));
-            }
+        if (random.nextBoolean()) {
+            questionLabel.setText(selectedRegionFeature1.getName() + " — " + selectedRegionFeature2.getName());
+            label.setText(selectedRegionFeature1.getValue());
 
-            List<AnswerButton> answerButtons = new ArrayList<>();
-            answerButtons.add(new AnswerButton(selectedRegionFeature.getValue(), true, this));
-            answerButtons.add(new AnswerButton(wrongFeatures.get(0).getValue(), false, this));
-            answerButtons.add(new AnswerButton(wrongFeatures.get(1).getValue(), false, this));
-            answerButtons.add(new AnswerButton(wrongFeatures.get(2).getValue(), false, this));
-
-            Collections.shuffle(answerButtons);
-
-            JLabel label = new JLabel(selectedRegion.getName());
-            label.setFont(new Font("Segoe UI", Font.BOLD, 50));
-            label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-
-            panel = UITemplates.Question(
-                    label,
-                    answerButtons.get(0),
-                    answerButtons.get(1),
-                    answerButtons.get(2),
-                    answerButtons.get(3)
-            );
-
+            answerButtons.add(new AnswerButton(Features2.get(0).getValue(), true, this, Features2.get(0)));
+            answerButtons.add(new AnswerButton(Features2.get(1).getValue(), false, this, Features2.get(1)));
+            answerButtons.add(new AnswerButton(Features2.get(2).getValue(), false, this, Features2.get(2)));
+            answerButtons.add(new AnswerButton(Features2.get(3).getValue(), false, this, Features2.get(3)));
 
         }
-        else { //вопрос - фича, ответы - названия регионов
-            JLabel label = new JLabel(selectedRegionFeature.getValue());
-            label.setFont(new Font("Segoe UI", Font.BOLD, 50));
-            label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        else {
+            questionLabel.setText(selectedRegionFeature2.getName() + " — " + selectedRegionFeature1.getName());
+            label.setText(selectedRegionFeature2.getValue());
 
-            List<AnswerButton> answerButtons = new ArrayList<>();
-            answerButtons.add(new AnswerButton(selectedRegion.getName(), true, this));
-            answerButtons.add(new AnswerButton(selectedRegions.get(1).getName(), false, this));
-            answerButtons.add(new AnswerButton(selectedRegions.get(2).getName(), false, this));
-            answerButtons.add(new AnswerButton(selectedRegions.get(3).getName(), false, this));
-
-            Collections.shuffle(answerButtons);
-
-            panel = UITemplates.Question(
-                    label,
-                    answerButtons.get(0),
-                    answerButtons.get(1),
-                    answerButtons.get(2),
-                    answerButtons.get(3)
-            );
+            answerButtons.add(new AnswerButton(Features1.get(0).getValue(), true, this, Features1.get(0)));
+            answerButtons.add(new AnswerButton(Features1.get(1).getValue(), false, this, Features1.get(1)));
+            answerButtons.add(new AnswerButton(Features1.get(2).getValue(), false, this, Features1.get(2)));
+            answerButtons.add(new AnswerButton(Features1.get(3).getValue(), false, this, Features1.get(3)));
         }
+
+        Collections.shuffle(answerButtons);
+
+        label.setFont(new Font("Segoe UI", Font.BOLD, 50));
+        label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        questionLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        questionLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+
+        panel = UITemplates.Question(
+                questionLabel,
+                label,
+                answerButtons.get(0),
+                answerButtons.get(1),
+                answerButtons.get(2),
+                answerButtons.get(3)
+        );
+
+
+
         return panel;
     }
 
-    public void tryRight(){
+    public void tryRight() {
         if (flag) {
-            System.out.println(feature.getAccuracy());
             feature.accuracyUp();
-            System.out.println(feature.getAccuracy());
         }
     }
 
-    public void tryWrong(){
+    public void tryWrong(RegionFeature feature_){
         if (flag) {
             feature.accuracyDown();
+            feature_.accuracyDown();
         }
     }
 

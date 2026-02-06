@@ -26,7 +26,6 @@ public class MainPage extends Page {
     protected JPanel createContent() {
         JPanel panel = new JPanel(new BorderLayout(10, 10));
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-
         JLabel title = new JLabel("GeoGuessr Learn", SwingConstants.CENTER);
         title.setFont(new Font("Segoe UI", Font.BOLD, 28));
         title.setForeground(new Color(0, 122, 255));

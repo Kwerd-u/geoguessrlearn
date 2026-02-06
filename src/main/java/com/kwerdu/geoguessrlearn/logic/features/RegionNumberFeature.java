@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import javax.swing.*;
 import java.awt.*;
 
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
 public class RegionNumberFeature extends RegionFeature {
 
     public RegionNumberFeature() {

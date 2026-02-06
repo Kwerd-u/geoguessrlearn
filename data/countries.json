@@ -1,0 +1,80 @@
+[ {
+  "name" : "Россия",
+  "regions" : [ {
+    "name" : "Республика Адыгея",
+    "features" : [ {
+      "type" : "RegionPhoneFeature",
+      "accuracy" : 0,
+      "value" : "877",
+      "name" : "Телефонный домен региона"
+    }, {
+      "type" : "RegionNameFeature",
+      "accuracy" : 20,
+      "value" : "Республика Адыгея",
+      "name" : "Название региона"
+    }, {
+      "type" : "RegionNumberFeature",
+      "accuracy" : 30,
+      "value" : "01",
+      "name" : "Код региона"
+    } ],
+    "accuracy" : 16
+  }, {
+    "name" : "Ростовская область",
+    "features" : [ {
+      "type" : "RegionNameFeature",
+      "accuracy" : 30,
+      "value" : "Ростовская область",
+      "name" : "Название региона"
+    }, {
+      "type" : "RegionPhoneFeature",
+      "accuracy" : 30,
+      "value" : "863",
+      "name" : "Телефонный домен региона"
+    }, {
+      "type" : "RegionNumberFeature",
+      "accuracy" : 30,
+      "value" : "61",
+      "name" : "Код региона"
+    } ],
+    "accuracy" : 30
+  }, {
+    "name" : "Москва",
+    "features" : [ {
+      "type" : "RegionNameFeature",
+      "accuracy" : 30,
+      "value" : "Москва",
+      "name" : "Название региона"
+    }, {
+      "type" : "RegionPhoneFeature",
+      "accuracy" : 20,
+      "value" : "495, 499",
+      "name" : "Телефонный домен региона"
+    }, {
+      "type" : "RegionNumberFeature",
+      "accuracy" : 30,
+      "value" : "77",
+      "name" : "Код региона"
+    } ],
+    "accuracy" : 26
+  }, {
+    "name" : "Санкт-Петербург",
+    "features" : [ {
+      "type" : "RegionNameFeature",
+      "accuracy" : 40,
+      "value" : "Санкт-Петербург",
+      "name" : "Название региона"
+    }, {
+      "type" : "RegionPhoneFeature",
+      "accuracy" : 30,
+      "value" : "812",
+      "name" : "Телефонный домен региона"
+    }, {
+      "type" : "RegionNumberFeature",
+      "accuracy" : 30,
+      "value" : "52",
+      "name" : "Код региона"
+    } ],
+    "accuracy" : 33
+  } ]
+} ]

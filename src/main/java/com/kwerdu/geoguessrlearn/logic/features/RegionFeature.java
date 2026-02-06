@@ -1,18 +1,23 @@
 package com.kwerdu.geoguessrlearn.logic.features;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import javax.swing.*;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = RegionNumberFeature.class, name = "regionNumber"),
-        //@JsonSubTypes.Type(value = PhoneCodeFeature.class, name = "phoneCode"),
+        @JsonSubTypes.Type(value = RegionNumberFeature.class, name = "RegionNumberFeature"),
+        @JsonSubTypes.Type(value = RegionPhoneFeature.class, name = "RegionPhoneFeature"),
+        @JsonSubTypes.Type(value = RegionNameFeature.class, name = "RegionNameFeature"),
         //@JsonSubTypes.Type(value = LicensePlateFeature.class, name = "licensePlate")
 })
 public abstract class RegionFeature {
     private int accuracy;
     private String value;
+    private String name;
+
+    @JsonIgnore
     private String type;
 
     public RegionFeature() {}
@@ -47,5 +52,13 @@ public abstract class RegionFeature {
 
     public void accuracyDown(){
         accuracy -= 10;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

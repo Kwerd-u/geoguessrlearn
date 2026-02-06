@@ -1,34 +1,67 @@
 package com.kwerdu.geoguessrlearn.logic;
 
+import jakarta.annotation.PreDestroy;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.type.TypeReference;
-import org.springframework.core.io.ClassPathResource;
-import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
 public class CountryRepository {
-    private final List<Country> countries;
+    private List<Country> countries = new ArrayList<>();
     private Country selectedCountry;
-
+    private final Path dataFile = Paths.get("data/countries.json");
+    private final ObjectMapper mapper = new ObjectMapper();
 
     public CountryRepository() {
-        this.countries = loadCountries();
+        loadCountries();  // Загружаем из data/countries.json ИЛИ resources
     }
 
-    private List<Country> loadCountries() {
+    private void loadCountries() {
         try {
+            // 1. Пробуем data/countries.json (сохранённый прогресс)
+            if (Files.exists(dataFile)) {
+                countries = mapper.readValue(dataFile.toFile(),
+                        new TypeReference<List<Country>>() {});
+                System.out.println("✅ Загружен прогресс: " + dataFile);
+                return;
+            }
+
+            // 2. Если нет — дефолт из resources
             ClassPathResource resource = new ClassPathResource("countries.json");
-            ObjectMapper mapper = new ObjectMapper();
-            return mapper.readValue(resource.getInputStream(),
+            countries = mapper.readValue(resource.getInputStream(),
                     new TypeReference<List<Country>>() {});
+            System.out.println("📥 Загружен дефолт");
+
+            // 3. Сразу сохраняем копию
+            saveCountries();
+
         } catch (Exception e) {
-            System.err.println("Ошибка JSON: " + e.getMessage());
-            return new ArrayList<>();  // Пустой список при ошибке
+            System.err.println("💥 Ошибка загрузки: " + e.getMessage());
+            countries = new ArrayList<>();
         }
+    }
+
+    // 🔥 СОХРАНЯЕМ ПОСЛЕ КАЖДОГО ОТВЕТА!
+    public void saveCountries() {
+        try {
+            Files.createDirectories(dataFile.getParent());
+            mapper.writerWithDefaultPrettyPrinter()
+                    .writeValue(dataFile.toFile(), countries);
+            System.out.println("💾 Сохранено accuracy");
+        } catch (Exception e) {
+            System.err.println("Ошибка сохранения: " + e.getMessage());
+        }
+    }
+
+    @PreDestroy
+    public void onShutdown() {
+        saveCountries();  // Финальное сохранение
     }
 
     public Country getRandomCountry() {
