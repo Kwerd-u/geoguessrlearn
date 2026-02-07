@@ -19,8 +19,6 @@ public class Region {
     private int choiceFactor = 0;
 
     public Region(){}
-    public Region(String name) {this.name = name;}
-    public Region(String name, List<RegionFeature> features) {this.name = name;this.features = features;}
 
     public void updateAccuracy(){
         int sum = 0;
@@ -35,6 +33,9 @@ public class Region {
     public void updateChoiceFactor(){
         updateAccuracy();
         choiceFactor = accuracy - roundsAgo * 5;
+        for (RegionFeature feature : features) {
+            feature.updateChoiceFactor();
+        }
     }
     @JsonIgnore
     public int getChoiceFactor() {
@@ -81,6 +82,9 @@ public class Region {
     }
     public void nextRound(){
         roundsAgo++;
+        for (RegionFeature feature : features) {
+            feature.nextRound();
+        }
     }
 
 

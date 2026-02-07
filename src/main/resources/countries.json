@@ -37,6 +37,15 @@
           {"name": "Телефонный домен региона", "type": "RegionPhoneFeature", "value": "877", "accuracy": 0},
           {"name": "Название региона", "type": "RegionNameFeature", "value": "Республика Адыгея", "accuracy": 0}
         ]
+      },
+      {
+        "name": "Республика Башкортостан",
+        "accuracy": 0,
+        "features": [
+          {"name": "Код региона", "type": "RegionNumberFeature", "value": "02", "accuracy": 0},
+          {"name": "Телефонный домен региона", "type": "RegionPhoneFeature", "value": "347", "accuracy": 0},
+          {"name": "Название региона", "type": "RegionNameFeature", "value": "Республика Башкортостан", "accuracy": 0}
+        ]
       }
     ]
   }

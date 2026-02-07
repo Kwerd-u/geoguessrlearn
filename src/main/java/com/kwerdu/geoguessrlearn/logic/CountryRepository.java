@@ -46,8 +46,6 @@ public class CountryRepository {
             countries = new ArrayList<>();
         }
     }
-
-    // 🔥 СОХРАНЯЕМ ПОСЛЕ КАЖДОГО ОТВЕТА!
     public void saveCountries() {
         try {
             Files.createDirectories(dataFile.getParent());
@@ -68,6 +66,11 @@ public class CountryRepository {
         return countries.get((int)(Math.random() * countries.size()));
     }
 
-    public void selectCountry() {selectedCountry = countries.get(0);}
+    public void selectCountry() {
+        selectedCountry = countries.get(0);
+        selectedCountry.updateOtherRegionPool();
+        selectedCountry.updateRegionPool();
+        selectedCountry.updateRegionPoolAccuracy();
+    }
     public Country getSelectedCountry() {return selectedCountry;}
 }

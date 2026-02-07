@@ -25,14 +25,7 @@ public class AnswerButton extends JButton {
     }
 
     private void changeAccuracy(){
-        if (correct) {
-            gameService.tryRight();
-            gameService.setFlagFalse();
-        }
-        else  {
-            gameService.tryWrong(regionFeature);
-            gameService.setFlagFalse();
-        }
+        gameService.guess(correct, regionFeature);
     }
 
     public void isCorrect() {

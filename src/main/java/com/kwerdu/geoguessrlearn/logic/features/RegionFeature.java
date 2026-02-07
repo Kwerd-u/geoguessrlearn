@@ -17,17 +17,38 @@ public abstract class RegionFeature {
     private String value;
     private String name;
 
+    private int[] lastFiveGuesses = new int[5];
+
+    @JsonIgnore
+    private int roundsAgo = 0;
+    @JsonIgnore
+    private int choiceFactor = 0;
+
     @JsonIgnore
     private String type;
 
     public RegionFeature() {}
     public abstract JPanel render();
-    public int getAccuracy() {
-        return accuracy;
+
+    public void updateChoiceFactor(){
+        updateAccuracy();
+        choiceFactor = accuracy - roundsAgo * 5;
+    }
+    @JsonIgnore
+    public int getChoiceFactor() {
+        return choiceFactor;
     }
 
-    public void setAccuracy(int accuracy) {
-        this.accuracy = accuracy;
+    public void pickUp(){
+        roundsAgo = 0;
+    }
+    public void nextRound(){
+        roundsAgo++;
+    }
+
+
+    public int getAccuracy() {
+        return accuracy;
     }
 
     public void setValue(String value) {
@@ -46,12 +67,42 @@ public abstract class RegionFeature {
         this.type = type;
     }
 
-    public void accuracyUp(){
-        accuracy += 10;
+    public void guess(boolean right){
+        if (right){
+            insertGuess(1);
+        }
+        else {
+            insertGuess(-1);
+        }
+        updateAccuracy();
     }
 
-    public void accuracyDown(){
-        accuracy -= 10;
+    private void insertGuess(int guess){
+        int a = lastFiveGuesses[0];
+        for (int i = 1; i < lastFiveGuesses.length; i++){
+            lastFiveGuesses[i - 1] = guess;
+            guess = a;
+            a = lastFiveGuesses[i];
+        }
+    }
+
+    private void updateAccuracy(){
+        int sum = 0;
+        int count = 0;
+        for (int i = 0; i < lastFiveGuesses.length; i++) {
+            if (lastFiveGuesses[i] != 0) {
+                if (lastFiveGuesses[i] == 1) {
+                    sum += lastFiveGuesses[i];
+                }
+                count++;
+            }
+        }
+        if (count != 0) {
+            accuracy = sum * 100 / count;
+        }
+        else {
+            accuracy = 0;
+        }
     }
 
     public String getName() {
@@ -60,5 +111,13 @@ public abstract class RegionFeature {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int[] getLastFiveGuesses() {
+        return lastFiveGuesses;
+    }
+
+    public void setLastFiveGuesses(int[] lastFiveGuesses) {
+        this.lastFiveGuesses = lastFiveGuesses;
     }
 }

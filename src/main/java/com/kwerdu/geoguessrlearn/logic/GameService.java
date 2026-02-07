@@ -62,16 +62,16 @@ public class GameService {
 
         selectedCountry.nextRoundRegions();
 
-        List<Region> regions = selectedCountry.getRegions();
+        List<Region> regions = selectedCountry.getRegionPool();
         regions.sort(Comparator.comparing(Region::getChoiceFactor));
+
         List<Region> selectedRegions = regions.subList(0, 4);
-
-
         Region selectedRegion = selectedRegions.get(0);
+
         selectedRegion.pickUp();
 
         List<RegionFeature> regionFeatures = selectedRegion.getFeatures();
-        regionFeatures.sort(Comparator.comparing(RegionFeature::getAccuracy));
+        regionFeatures.sort(Comparator.comparing(RegionFeature::getChoiceFactor));
 
         RegionFeature selectedRegionFeature1 = regionFeatures.get(0);
         feature = selectedRegionFeature1;
@@ -104,6 +104,10 @@ public class GameService {
             answerButtons.add(new AnswerButton(Features2.get(2).getValue(), false, this, Features2.get(2)));
             answerButtons.add(new AnswerButton(Features2.get(3).getValue(), false, this, Features2.get(3)));
 
+            for (RegionFeature feature : Features2) {
+                feature.pickUp();
+            }
+            selectedRegionFeature1.pickUp();
         }
         else {
             questionLabel.setText(selectedRegionFeature2.getName() + " — " + selectedRegionFeature1.getName());
@@ -113,6 +117,11 @@ public class GameService {
             answerButtons.add(new AnswerButton(Features1.get(1).getValue(), false, this, Features1.get(1)));
             answerButtons.add(new AnswerButton(Features1.get(2).getValue(), false, this, Features1.get(2)));
             answerButtons.add(new AnswerButton(Features1.get(3).getValue(), false, this, Features1.get(3)));
+
+            for (RegionFeature feature :  Features1) {
+                feature.pickUp();
+            }
+            selectedRegionFeature2.pickUp();
         }
 
         Collections.shuffle(answerButtons);
@@ -133,21 +142,14 @@ public class GameService {
                 answerButtons.get(3)
         );
 
-
-
         return panel;
     }
 
-    public void tryRight() {
+    public void guess(boolean right, RegionFeature feature2) {
         if (flag) {
-            feature.accuracyUp();
-        }
-    }
-
-    public void tryWrong(RegionFeature feature_){
-        if (flag) {
-            feature.accuracyDown();
-            feature_.accuracyDown();
+            feature.guess(right);
+            feature2.guess(right);
+            countryRepository.getSelectedCountry().updateRegionPoolAccuracy();
         }
     }
 
