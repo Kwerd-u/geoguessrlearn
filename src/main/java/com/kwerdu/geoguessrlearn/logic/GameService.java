@@ -1,7 +1,7 @@
 package com.kwerdu.geoguessrlearn.logic;
 
 import com.kwerdu.geoguessrlearn.logic.features.RegionFeature;
-import com.kwerdu.geoguessrlearn.ui.AnswerButton;
+import com.kwerdu.geoguessrlearn.customComponents.AnswerButton;
 import com.kwerdu.geoguessrlearn.ui.Navigator;
 import com.kwerdu.geoguessrlearn.ui.UIService;
 import com.kwerdu.geoguessrlearn.ui.UITemplates;
@@ -27,7 +27,8 @@ public class GameService {
     Navigator  navigator;
     @Autowired
     UIService uiService;
-
+    @Autowired
+    ImageProvider imageProvider;
 
     private RegionFeature feature;
     private boolean flag = true;
@@ -59,9 +60,7 @@ public class GameService {
         JPanel panel;
         List<AnswerButton> answerButtons = new ArrayList<>();
         JLabel label;
-        JLabel questionLabel =  new JLabel();
-
-
+        JLabel tipLabel;
         Country selectedCountry = countryRepository.getSelectedCountry();
 
         selectedCountry.nextRoundRegions();
@@ -75,76 +74,85 @@ public class GameService {
         selectedRegion.pickUp();
 
         List<RegionFeature> regionFeatures = selectedRegion.getFeatures();
-        regionFeatures.sort(Comparator.comparing(RegionFeature::getChoiceFactor));
+        regionFeatures.sort(Comparator.comparing(RegionFeature::getChoiceFactor).thenComparing(new Comparator<RegionFeature>() {
+            @Override
+            public int compare(RegionFeature o1, RegionFeature o2) {
+                Random random = new Random();
+                if (random.nextBoolean()){
+                    return -1;
+                }
+                else {
+                    return 1;
+                }
+            }
+        }));
+        for (RegionFeature regionFeature : regionFeatures){
+            System.out.println(regionFeature.getName() + ":" + regionFeature.getChoiceFactor());
+        }
 
-        RegionFeature selectedRegionFeature1 = regionFeatures.get(0);
-        feature = selectedRegionFeature1;
-        RegionFeature selectedRegionFeature2 = regionFeatures.get(1);
+        RegionFeature selectedRegionFeature = regionFeatures.get(0);
+        feature = selectedRegionFeature;
+        feature.pickUp();
 
+        for (RegionFeature regionFeature : regionFeatures){
+            System.out.println(regionFeature.getName() + ":" + regionFeature.getChoiceFactor());
+        }
 
-        String selectedRegionFeatureType1 = selectedRegionFeature1.getType();
-        String selectedRegionFeatureType2 = selectedRegionFeature2.getType();
+        List<RegionFeature> Features = new ArrayList<>();
+        Features.add(selectedRegionFeature);
 
-
-        List<RegionFeature> Features1 = new ArrayList<>();
-        Features1.add(selectedRegionFeature1);
-        List<RegionFeature> Features2 = new ArrayList<>();
-        Features2.add(selectedRegionFeature2);
-
+        String selectedRegionFeatureType = selectedRegionFeature.getType();
         for (int i = 1; i < 4; i++) {
             Region region = selectedRegions.get(i);
-            Features1.add(region.getFeatureWithType(selectedRegionFeatureType1));
-            Features2.add(region.getFeatureWithType(selectedRegionFeatureType2));
+            Features.add(region.getFeatureWithType(selectedRegionFeatureType));
         }
 
         Random random = new Random();
 
         if (random.nextBoolean()) {
-            questionLabel.setText(selectedRegionFeature1.getName() + " — " + selectedRegionFeature2.getName());
-            label = selectedRegionFeature1.getQuestion();
+            label = new JLabel(imageProvider.getImageIcon(selectedCountry, selectedRegion));
 
-            answerButtons.add(Features2.get(0).getAnswerButton(this, true));
-            answerButtons.add(Features2.get(1).getAnswerButton(this, false));
-            answerButtons.add(Features2.get(2).getAnswerButton(this, false));
-            answerButtons.add(Features2.get(3).getAnswerButton(this, false));
-
-            for (RegionFeature feature : Features2) {
-                feature.pickUp();
+            answerButtons.add(Features.get(0).getAnswerButton(this, true));
+            for (int i = 1; i < 4; i++){
+                answerButtons.add(Features.get(i).getAnswerButton(this, false));
             }
-            selectedRegionFeature1.pickUp();
         }
         else {
-            questionLabel.setText(selectedRegionFeature2.getName() + " — " + selectedRegionFeature1.getName());
-            label = selectedRegionFeature2.getQuestion();
+            label = selectedRegionFeature.getQuestion();
 
-            answerButtons.add(Features1.get(0).getAnswerButton(this, true));
-            answerButtons.add(Features1.get(1).getAnswerButton(this, false));
-            answerButtons.add(Features1.get(2).getAnswerButton(this, false));
-            answerButtons.add(Features1.get(3).getAnswerButton(this, false));
+            AnswerButton tempButton = new AnswerButton("", true, this, selectedRegionFeature);
+            tempButton.setIcon(imageProvider.getImageIcon(selectedCountry, selectedRegion));
 
-            for (RegionFeature feature :  Features1) {
-                feature.pickUp();
+            answerButtons.add(tempButton);
+
+            for (int i = 1; i < 4; i++){
+                tempButton = new AnswerButton("", false, this, Features.get(i));
+                tempButton.setIcon(imageProvider.getImageIcon(selectedCountry, regions.get(i)));
+
+                answerButtons.add(tempButton);
             }
-            selectedRegionFeature2.pickUp();
         }
+
+        tipLabel = new JLabel(selectedRegionFeature.getName());
+        tipLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        tipLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
 
         Collections.shuffle(answerButtons);
 
         label.setFont(new Font("Segoe UI", Font.BOLD, 50));
         label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
-        questionLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        questionLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-
 
         panel = UITemplates.Question(
-                questionLabel,
+                tipLabel,
                 label,
                 answerButtons.get(0),
                 answerButtons.get(1),
                 answerButtons.get(2),
                 answerButtons.get(3)
         );
+
         return panel;
     }
 

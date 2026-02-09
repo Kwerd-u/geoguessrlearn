@@ -1,6 +1,9 @@
 package com.kwerdu.geoguessrlearn.logic;
 
+import com.kwerdu.geoguessrlearn.ui.Navigator;
 import jakarta.annotation.PreDestroy;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,8 +21,11 @@ public class CountryRepository {
     private final Path dataFile = Paths.get("data/countries.json");
     private final ObjectMapper mapper = new ObjectMapper();
 
+    @Autowired
+    Navigator navigator;
+
     public CountryRepository() {
-        loadCountries();  // Загружаем из data/countries.json ИЛИ resources
+        loadCountries();
     }
 
     private void loadCountries() {
@@ -62,15 +68,20 @@ public class CountryRepository {
         saveCountries();  // Финальное сохранение
     }
 
-    public Country getRandomCountry() {
-        return countries.get((int)(Math.random() * countries.size()));
-    }
-
-    public void selectCountry() {
-        selectedCountry = countries.get(0);
+    public void selectCountry(Country country) {
+        selectedCountry = country;
         selectedCountry.updateOtherRegionPool();
         selectedCountry.updateRegionPool();
         selectedCountry.updateRegionPoolAccuracy();
+
+        System.out.println(country.getName());
+        for (Region region : selectedCountry.getRegions()){
+            System.out.println(region.getName());
+        }
+
+        navigator.showQuestionPage();
     }
     public Country getSelectedCountry() {return selectedCountry;}
+
+    public List<Country> getCountries(){return countries;}
 }

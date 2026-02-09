@@ -5,6 +5,7 @@ import com.kwerdu.geoguessrlearn.logic.features.RegionFeature;
 
 import javax.swing.*;
 import java.awt.*;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +13,8 @@ public class Region {
     private String name;
     private List<RegionFeature> features = new ArrayList<>();
     private int accuracy;
+    @JsonIgnore
+    private ImageIcon mapImageIcon;
 
     @JsonIgnore
     private int roundsAgo = 0;
@@ -86,6 +89,4 @@ public class Region {
             feature.nextRound();
         }
     }
-
-
 }

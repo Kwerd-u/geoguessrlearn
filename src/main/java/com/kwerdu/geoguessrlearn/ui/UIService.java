@@ -18,6 +18,9 @@ public class UIService {
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+
+
+
     }
 
     public void ShowPanel(JPanel panel) {

@@ -18,9 +18,6 @@ public class Country {
     @JsonIgnore
     private int regionPoolAccuracy;
 
-    public Country() {
-    }
-
     public void updateOtherRegionPool(){
         otherRegionPool.addAll(regions);
     }
@@ -45,11 +42,6 @@ public class Country {
             count++;
         }
         regionPoolAccuracy = sum / count;
-    }
-
-    @JsonIgnore
-    public Region getRandomRegion() {
-        return regions.get((int)(Math.random() * regions.size()));
     }
 
     public void nextRoundRegions(){

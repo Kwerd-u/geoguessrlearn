@@ -4,22 +4,21 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.kwerdu.geoguessrlearn.logic.GameService;
-import com.kwerdu.geoguessrlearn.ui.AnswerButton;
-import com.kwerdu.geoguessrlearn.ui.UIService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.kwerdu.geoguessrlearn.customComponents.AnswerButton;
 
 import javax.swing.*;
+
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = RegionNumberFeature.class, name = "RegionNumberFeature"),
         @JsonSubTypes.Type(value = RegionPhoneFeature.class, name = "RegionPhoneFeature"),
-        @JsonSubTypes.Type(value = RegionNameFeature.class, name = "RegionNameFeature"),
-        @JsonSubTypes.Type(value = RegionGeopositionFeature.class, name = "RegionGeopositionFeature")
+        @JsonSubTypes.Type(value = RegionNameFeature.class, name = "RegionNameFeature")
 })
 public abstract class RegionFeature {
     private int accuracy;
     private String value;
     private String name;
+
 
     private int[] lastFiveGuesses = new int[5];
 
@@ -32,12 +31,18 @@ public abstract class RegionFeature {
     private String type;
 
     public RegionFeature() {}
-    @JsonIgnore
-    public abstract AnswerButton getAnswerButton(GameService gameService, boolean b);
-    @JsonIgnore
-    public abstract JLabel getQuestion();
 
+    @JsonIgnore
+    public AnswerButton getAnswerButton(GameService gameService, boolean b) {
+        AnswerButton answerButton = new AnswerButton(getValue(), b, gameService, this);
+        return answerButton;
+    }
 
+    @JsonIgnore
+    public JLabel getQuestion() {
+        JLabel label = new JLabel(getValue());
+        return label;
+    }
 
     public void updateChoiceFactor(){
         updateAccuracy();
@@ -50,6 +55,7 @@ public abstract class RegionFeature {
 
     public void pickUp(){
         roundsAgo = 0;
+        updateChoiceFactor();
     }
     public void nextRound(){
         roundsAgo++;

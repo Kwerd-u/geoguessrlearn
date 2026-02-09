@@ -18,6 +18,7 @@ public class GeoguessrlearnApplication {
 
         SwingUtilities.invokeLater(() -> {
             MainPage mainPage = context.getBean(MainPage.class);
+            mainPage.refresh();
             mainPage.showSelf(context);
         });
     }

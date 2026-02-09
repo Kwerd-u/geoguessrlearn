@@ -1,7 +1,6 @@
-package com.kwerdu.geoguessrlearn.ui;
+package com.kwerdu.geoguessrlearn.customComponents;
 
 import com.kwerdu.geoguessrlearn.logic.GameService;
-import com.kwerdu.geoguessrlearn.logic.Region;
 import com.kwerdu.geoguessrlearn.logic.features.RegionFeature;
 
 import javax.swing.*;
