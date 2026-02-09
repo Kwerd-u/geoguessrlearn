@@ -1,7 +1,9 @@
 package com.kwerdu.geoguessrlearn.ui.pages;
 
 import com.kwerdu.geoguessrlearn.logic.*;
+import com.kwerdu.geoguessrlearn.ui.UIService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import javax.swing.*;

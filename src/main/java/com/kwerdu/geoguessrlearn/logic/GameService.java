@@ -3,6 +3,7 @@ package com.kwerdu.geoguessrlearn.logic;
 import com.kwerdu.geoguessrlearn.logic.features.RegionFeature;
 import com.kwerdu.geoguessrlearn.ui.AnswerButton;
 import com.kwerdu.geoguessrlearn.ui.Navigator;
+import com.kwerdu.geoguessrlearn.ui.UIService;
 import com.kwerdu.geoguessrlearn.ui.UITemplates;
 import com.kwerdu.geoguessrlearn.ui.pages.QuestionPage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,9 @@ public class GameService {
     CountryRepository countryRepository;
     @Autowired
     Navigator  navigator;
+    @Autowired
+    UIService uiService;
+
 
     private RegionFeature feature;
     private boolean flag = true;
@@ -54,7 +58,7 @@ public class GameService {
         flag = true;
         JPanel panel;
         List<AnswerButton> answerButtons = new ArrayList<>();
-        JLabel label = new JLabel();
+        JLabel label;
         JLabel questionLabel =  new JLabel();
 
 
@@ -97,12 +101,12 @@ public class GameService {
 
         if (random.nextBoolean()) {
             questionLabel.setText(selectedRegionFeature1.getName() + " — " + selectedRegionFeature2.getName());
-            label.setText(selectedRegionFeature1.getValue());
+            label = selectedRegionFeature1.getQuestion();
 
-            answerButtons.add(new AnswerButton(Features2.get(0).getValue(), true, this, Features2.get(0)));
-            answerButtons.add(new AnswerButton(Features2.get(1).getValue(), false, this, Features2.get(1)));
-            answerButtons.add(new AnswerButton(Features2.get(2).getValue(), false, this, Features2.get(2)));
-            answerButtons.add(new AnswerButton(Features2.get(3).getValue(), false, this, Features2.get(3)));
+            answerButtons.add(Features2.get(0).getAnswerButton(this, true));
+            answerButtons.add(Features2.get(1).getAnswerButton(this, false));
+            answerButtons.add(Features2.get(2).getAnswerButton(this, false));
+            answerButtons.add(Features2.get(3).getAnswerButton(this, false));
 
             for (RegionFeature feature : Features2) {
                 feature.pickUp();
@@ -111,12 +115,12 @@ public class GameService {
         }
         else {
             questionLabel.setText(selectedRegionFeature2.getName() + " — " + selectedRegionFeature1.getName());
-            label.setText(selectedRegionFeature2.getValue());
+            label = selectedRegionFeature2.getQuestion();
 
-            answerButtons.add(new AnswerButton(Features1.get(0).getValue(), true, this, Features1.get(0)));
-            answerButtons.add(new AnswerButton(Features1.get(1).getValue(), false, this, Features1.get(1)));
-            answerButtons.add(new AnswerButton(Features1.get(2).getValue(), false, this, Features1.get(2)));
-            answerButtons.add(new AnswerButton(Features1.get(3).getValue(), false, this, Features1.get(3)));
+            answerButtons.add(Features1.get(0).getAnswerButton(this, true));
+            answerButtons.add(Features1.get(1).getAnswerButton(this, false));
+            answerButtons.add(Features1.get(2).getAnswerButton(this, false));
+            answerButtons.add(Features1.get(3).getAnswerButton(this, false));
 
             for (RegionFeature feature :  Features1) {
                 feature.pickUp();
@@ -141,7 +145,6 @@ public class GameService {
                 answerButtons.get(2),
                 answerButtons.get(3)
         );
-
         return panel;
     }
 
@@ -152,10 +155,4 @@ public class GameService {
             countryRepository.getSelectedCountry().updateRegionPoolAccuracy();
         }
     }
-
-    public void setFlagFalse(){
-        flag = false;
-    }
-
-
 }

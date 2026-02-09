@@ -38,8 +38,4 @@ public class AnswerButton extends JButton {
         repaint();
         revalidate();
     }
-
-    public void setCorrect(boolean correct) {
-        this.correct = correct;
-    }
 }

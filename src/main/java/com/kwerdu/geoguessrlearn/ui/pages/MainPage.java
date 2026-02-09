@@ -1,9 +1,12 @@
 package com.kwerdu.geoguessrlearn.ui.pages;
 
-import com.kwerdu.geoguessrlearn.logic.Country;
 import com.kwerdu.geoguessrlearn.logic.CountryRepository;
 import com.kwerdu.geoguessrlearn.ui.Navigator;
+import com.kwerdu.geoguessrlearn.ui.UIService;
+import com.sun.tools.javac.Main;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import javax.swing.*;
@@ -12,15 +15,14 @@ import java.awt.event.ActionEvent;
 
 @Component
 public class MainPage extends Page {
-
-    public MainPage() {
-        refresh();
-    }
-
     @Autowired
     Navigator navigator;
     @Autowired
     CountryRepository  countryRepository;
+
+    public MainPage(){
+        refresh();
+    }
 
     @Override
     protected JPanel createContent() {

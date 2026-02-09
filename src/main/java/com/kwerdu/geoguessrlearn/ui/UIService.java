@@ -9,15 +9,11 @@ import java.awt.*;
 @Service
 public class UIService {
     private JFrame frame;
-    private GraphicsDevice gd;
 
     @PostConstruct
     public void init() {
         frame = new JFrame("GeoGuessr Learn");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        gd = GraphicsEnvironment
-                .getLocalGraphicsEnvironment().getDefaultScreenDevice();
 
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setLocationRelativeTo(null);

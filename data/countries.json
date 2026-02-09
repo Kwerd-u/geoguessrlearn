@@ -1,80 +1,144 @@
 [ {
   "name" : "Россия",
   "regions" : [ {
-    "name" : "Республика Адыгея",
-    "features" : [ {
-      "type" : "RegionPhoneFeature",
-      "accuracy" : 0,
-      "value" : "877",
-      "name" : "Телефонный домен региона"
-    }, {
-      "type" : "RegionNameFeature",
-      "accuracy" : 20,
-      "value" : "Республика Адыгея",
-      "name" : "Название региона"
-    }, {
-      "type" : "RegionNumberFeature",
-      "accuracy" : 30,
-      "value" : "01",
-      "name" : "Код региона"
-    } ],
-    "accuracy" : 16
-  }, {
-    "name" : "Ростовская область",
-    "features" : [ {
-      "type" : "RegionNameFeature",
-      "accuracy" : 30,
-      "value" : "Ростовская область",
-      "name" : "Название региона"
-    }, {
-      "type" : "RegionPhoneFeature",
-      "accuracy" : 30,
-      "value" : "863",
-      "name" : "Телефонный домен региона"
-    }, {
-      "type" : "RegionNumberFeature",
-      "accuracy" : 30,
-      "value" : "61",
-      "name" : "Код региона"
-    } ],
-    "accuracy" : 30
-  }, {
     "name" : "Москва",
     "features" : [ {
-      "type" : "RegionNameFeature",
-      "accuracy" : 30,
-      "value" : "Москва",
-      "name" : "Название региона"
+      "type" : "RegionNumberFeature",
+      "accuracy" : 100,
+      "value" : "77",
+      "name" : "Код региона",
+      "lastFiveGuesses" : [ 1, 0, 0, 0, 0 ]
     }, {
       "type" : "RegionPhoneFeature",
-      "accuracy" : 20,
+      "accuracy" : 100,
       "value" : "495, 499",
-      "name" : "Телефонный домен региона"
+      "name" : "Телефонный домен региона",
+      "lastFiveGuesses" : [ 1, 0, 0, 0, 0 ]
     }, {
-      "type" : "RegionNumberFeature",
-      "accuracy" : 30,
-      "value" : "77",
-      "name" : "Код региона"
+      "type" : "RegionNameFeature",
+      "accuracy" : 0,
+      "value" : "Москва",
+      "name" : "Название региона",
+      "lastFiveGuesses" : [ 0, 0, 0, 0, 0 ]
+    }, {
+      "type" : "RegionGeopositionFeature",
+      "accuracy" : 0,
+      "value" : "/positions/Москва.jpg",
+      "name" : "Географическое положение региона",
+      "lastFiveGuesses" : [ 0, 0, 0, 0, 0 ]
     } ],
-    "accuracy" : 26
+    "accuracy" : 50
   }, {
     "name" : "Санкт-Петербург",
     "features" : [ {
-      "type" : "RegionNameFeature",
-      "accuracy" : 40,
-      "value" : "Санкт-Петербург",
-      "name" : "Название региона"
+      "type" : "RegionNumberFeature",
+      "accuracy" : 100,
+      "value" : "52",
+      "name" : "Код региона",
+      "lastFiveGuesses" : [ 1, 0, 0, 0, 0 ]
+    }, {
+      "type" : "RegionGeopositionFeature",
+      "accuracy" : 100,
+      "value" : "/positions/Санкт-Петербург.jpg",
+      "name" : "Географическое положение региона",
+      "lastFiveGuesses" : [ 1, 0, 0, 0, 0 ]
     }, {
       "type" : "RegionPhoneFeature",
-      "accuracy" : 30,
+      "accuracy" : 0,
       "value" : "812",
-      "name" : "Телефонный домен региона"
+      "name" : "Телефонный домен региона",
+      "lastFiveGuesses" : [ 0, 0, 0, 0, 0 ]
     }, {
-      "type" : "RegionNumberFeature",
-      "accuracy" : 30,
-      "value" : "52",
-      "name" : "Код региона"
+      "type" : "RegionNameFeature",
+      "accuracy" : 0,
+      "value" : "Санкт-Петербург",
+      "name" : "Название региона",
+      "lastFiveGuesses" : [ 0, 0, 0, 0, 0 ]
     } ],
-    "accuracy" : 33
+    "accuracy" : 50
+  }, {
+    "name" : "Ростовская область",
+    "features" : [ {
+      "type" : "RegionNumberFeature",
+      "accuracy" : 0,
+      "value" : "61",
+      "name" : "Код региона",
+      "lastFiveGuesses" : [ 0, 0, 0, 0, 0 ]
+    }, {
+      "type" : "RegionPhoneFeature",
+      "accuracy" : 0,
+      "value" : "863",
+      "name" : "Телефонный домен региона",
+      "lastFiveGuesses" : [ 0, 0, 0, 0, 0 ]
+    }, {
+      "type" : "RegionNameFeature",
+      "accuracy" : 0,
+      "value" : "Ростовская область",
+      "name" : "Название региона",
+      "lastFiveGuesses" : [ 0, 0, 0, 0, 0 ]
+    }, {
+      "type" : "RegionGeopositionFeature",
+      "accuracy" : 0,
+      "value" : "/positions/Ростовская область.jpg",
+      "name" : "Географическое положение региона",
+      "lastFiveGuesses" : [ 0, 0, 0, 0, 0 ]
+    } ],
+    "accuracy" : 0
+  }, {
+    "name" : "Республика Адыгея",
+    "features" : [ {
+      "type" : "RegionNumberFeature",
+      "accuracy" : 100,
+      "value" : "01",
+      "name" : "Код региона",
+      "lastFiveGuesses" : [ 1, 0, 0, 0, 0 ]
+    }, {
+      "type" : "RegionNameFeature",
+      "accuracy" : 100,
+      "value" : "Республика Адыгея",
+      "name" : "Название региона",
+      "lastFiveGuesses" : [ 1, 0, 0, 0, 0 ]
+    }, {
+      "type" : "RegionGeopositionFeature",
+      "accuracy" : 0,
+      "value" : "/positions/Республика Адыгея.jpg",
+      "name" : "Географическое положение региона",
+      "lastFiveGuesses" : [ 0, 0, 0, 0, 0 ]
+    }, {
+      "type" : "RegionPhoneFeature",
+      "accuracy" : 0,
+      "value" : "877",
+      "name" : "Телефонный домен региона",
+      "lastFiveGuesses" : [ 0, 0, 0, 0, 0 ]
+    } ],
+    "accuracy" : 50
+  }, {
+    "name" : "Республика Башкортостан",
+    "features" : [ {
+      "type" : "RegionNumberFeature",
+      "accuracy" : 0,
+      "value" : "02",
+      "name" : "Код региона",
+      "lastFiveGuesses" : [ 0, 0, 0, 0, 0 ]
+    }, {
+      "type" : "RegionPhoneFeature",
+      "accuracy" : 0,
+      "value" : "347",
+      "name" : "Телефонный домен региона",
+      "lastFiveGuesses" : [ 0, 0, 0, 0, 0 ]
+    }, {
+      "type" : "RegionNameFeature",
+      "accuracy" : 0,
+      "value" : "Республика Башкортостан",
+      "name" : "Название региона",
+      "lastFiveGuesses" : [ 0, 0, 0, 0, 0 ]
+    }, {
+      "type" : "RegionGeopositionFeature",
+      "accuracy" : 0,
+      "value" : "/positions/Республика Башкортостан.jpg",
+      "name" : "Географическое положение региона",
+      "lastFiveGuesses" : [ 0, 0, 0, 0, 0 ]
+    } ],
+    "accuracy" : 0
   } ]
 } ]

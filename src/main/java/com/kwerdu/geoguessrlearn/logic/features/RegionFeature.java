@@ -3,6 +3,10 @@ package com.kwerdu.geoguessrlearn.logic.features;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.kwerdu.geoguessrlearn.logic.GameService;
+import com.kwerdu.geoguessrlearn.ui.AnswerButton;
+import com.kwerdu.geoguessrlearn.ui.UIService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.swing.*;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
@@ -10,7 +14,7 @@ import javax.swing.*;
         @JsonSubTypes.Type(value = RegionNumberFeature.class, name = "RegionNumberFeature"),
         @JsonSubTypes.Type(value = RegionPhoneFeature.class, name = "RegionPhoneFeature"),
         @JsonSubTypes.Type(value = RegionNameFeature.class, name = "RegionNameFeature"),
-        //@JsonSubTypes.Type(value = LicensePlateFeature.class, name = "licensePlate")
+        @JsonSubTypes.Type(value = RegionGeopositionFeature.class, name = "RegionGeopositionFeature")
 })
 public abstract class RegionFeature {
     private int accuracy;
@@ -28,7 +32,12 @@ public abstract class RegionFeature {
     private String type;
 
     public RegionFeature() {}
-    public abstract JPanel render();
+    @JsonIgnore
+    public abstract AnswerButton getAnswerButton(GameService gameService, boolean b);
+    @JsonIgnore
+    public abstract JLabel getQuestion();
+
+
 
     public void updateChoiceFactor(){
         updateAccuracy();

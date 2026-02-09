@@ -1,5 +1,8 @@
 package com.kwerdu.geoguessrlearn.logic.features;
 
+import com.kwerdu.geoguessrlearn.logic.GameService;
+import com.kwerdu.geoguessrlearn.ui.AnswerButton;
+
 import javax.swing.*;
 
 public class RegionPhoneFeature extends RegionFeature {
@@ -9,11 +12,14 @@ public class RegionPhoneFeature extends RegionFeature {
     }
 
     @Override
-    public JPanel render() {
-        JPanel card = new JPanel();
-        JLabel regionPhoneLabel = new JLabel(String.valueOf(getValue()));
-        regionPhoneLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        card.add(regionPhoneLabel);
-        return card;
+    public AnswerButton getAnswerButton(GameService gameService, boolean b) {
+        AnswerButton answerButton = new AnswerButton(getValue(), b, gameService, this);
+        return answerButton;
+    }
+
+    @Override
+    public JLabel getQuestion() {
+        JLabel label = new JLabel(getValue());
+        return label;
     }
 }
